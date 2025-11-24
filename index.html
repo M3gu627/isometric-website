@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Pixel Room</title>
+  <style>
+    body{
+      margin:0;
+      background:#111;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      padding:20px;
+      box-sizing:border-box;
+      /* Custom cursor removed */
+    }
+    
+    .container{
+      display:flex;
+      gap:40px;
+      align-items:flex-start;
+      position:relative;
+    }
+    
+    img{
+      image-rendering:pixelated;
+      width:600px;
+      height:525px;
+      cursor:pointer; /* normal pointer on clickable areas */
+    }
+
+    .menu-wrapper {
+      background: #f8f8f8;
+      border: 8px solid #000;
+      border-radius: 8px;
+      box-shadow: 
+        inset -4px -4px 0 #989898,
+        inset 4px 4px 0 #fff,
+        8px 8px 0 rgba(0,0,0,0.3);
+      width: 380px;
+      height: 525px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      image-rendering: pixelated;
+      font-family: 'Courier New', monospace;
+    }
+
+    .menu-header {
+      background: linear-gradient(180deg, #4870d8 0%, #3850b8 100%);
+      border-bottom: 4px solid #000;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pokeball-icon {
+      width: 32px;
+      height: 32px;
+      background: 
+        radial-gradient(circle at center, #fff 0%, #fff 30%, transparent 30%),
+        linear-gradient(180deg, #f00 0%, #f00 50%, #fff 50%, #fff 52%, #000 52%, #000 54%, #fff 54%, #fff 100%);
+      border: 3px solid #000;
+      border-radius: 50%;
+      box-shadow: inset -2px -2px 0 rgba(0,0,0,0.3);
+    }
+
+    .menu-title {
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      text-shadow: 2px 2px 0 #000;
+      letter-spacing: 1px;
+    }
+
+    .menu-content {
+      background: #fff;
+      padding: 8px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-list {
+      flex: 1;
+      overflow-y: auto;
+      background: #f0f0f0;
+      border: 4px solid #000;
+      padding: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #4870d8 #d0d0d0;
+    }
+
+    .menu-list::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    .menu-list::-webkit-scrollbar-track {
+      background: #d0d0d0;
+      border: 2px solid #000;
+    }
+
+    .menu-list::-webkit-scrollbar-thumb {
+      background: #4870d8;
+      border: 2px solid #000;
+    }
+
+    .menu-list::-webkit-scrollbar-thumb:hover {
+      background: #5880e8;
+    }
+
+    .menu-item {
+      padding: 10px 12px 10px 40px;
+      cursor: pointer;
+      transition: all .1s;
+      margin: 2px 0;
+      position: relative;
+      font-size: 16px;
+      font-weight: bold;
+      color: #000;
+      background: #fff;
+      border: 3px solid transparent;
+      image-rendering: pixelated;
+    }
+
+    .menu-item:hover {
+      background: #fffacd;
+    }
+
+    .menu-item.selected {
+      background: #ffd700;
+      border: 3px solid #000;
+      color: #000;
+      box-shadow: inset -2px -2px 0 #d4a000;
+    }
+
+    .arrow {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 12px solid #f00;
+      opacity: 0;
+      transition: opacity .1s;
+    }
+
+    .menu-item.selected .arrow {
+      opacity: 1;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .menu-footer {
+      background: #e0e0e0;
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      border-top: 4px solid #000;
+      color: #666;
+    }
+
+    .room-arrow {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-left: 20px solid #ff0;
+      filter: drop-shadow(0 0 4px #ff0);
+      pointer-events: none;
+      opacity: 0;
+      transition: all .3s ease;
+      z-index: 10;
+    }
+
+    .room-arrow.show {
+      opacity: 1;
+      animation: bounce 0.6s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-8px); }
+    }
+
+    .bubble {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #f8f8f8;
+      padding: 24px 32px;
+      border: 8px solid #000;
+      border-radius: 16px;
+      font: 20px 'Courier New', monospace;
+      font-weight: bold;
+      color: #000;
+      text-align: center;
+      max-width: 500px;
+      min-width: 350px;
+      box-shadow: 
+        inset -4px -4px 0 #989898,
+        inset 4px 4px 0 #fff,
+        12px 12px 0 rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transition: opacity .3s, transform .3s;
+      pointer-events: none;
+      z-index: 1000;
+      image-rendering: pixelated;
+    }
+
+    .bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 8px;
+      right: 8px;
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        #000 0px,
+        #000 4px,
+        transparent 4px,
+        transparent 8px
+      );
+    }
+
+    .bubble.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes popIn {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
+    .bubble-corner {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #000;
+    }
+
+    .bubble-corner.tl { top: -4px; left: -4px; }
+    .bubble-corner.tr { top: -4px; right: -4px; }
+    .bubble-corner.bl { bottom: -4px; left: -4px; }
+    .bubble-corner.br { bottom: -4px; right: -4px; }
+
+    @media(max-width: 1000px) {
+      .container { flex-direction: column; gap: 20px; align-items: center; }
+      img { max-width: 90vw; height: auto; }
+      .menu-wrapper { width: 90vw; max-width: 400px; }
+      .bubble { max-width: 85vw; min-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Removed the whole column with Up/Down buttons -->
+  <div class="menu-wrapper">
+    <div class="menu-header">
+      <div class="pokeball-icon"></div>
+      <div class="menu-title">MY STUFF</div>
+    </div>
+
+    <div class="menu-content">
+      <div class="menu-list" id="menuList">
+        <div class="menu-item" data-item="computer"><div class="arrow"></div>COMPUTER</div>
+        <div class="menu-item" data-item="pokeball"><div class="arrow"></div>POKÉ BALL</div>
+        <div class="menu-item" data-item="angry_birds"><div class="arrow"></div>ANGRY BIRDS</div>
+        <div class="menu-item" data-item="valorant"><div class="arrow"></div>VALORANT</div>
+        <div class="menu-item" data-item="smiley"><div class="arrow"></div>SMILEY</div>
+        <div class="menu-item" data-item="peashooter"><div class="arrow"></div>PEASHOOTER</div>
+        <div class="menu-item" data-item="bank"><div class="arrow"></div>RAMEN FUND</div>
+        <div class="menu-item" data-item="minecraft"><div class="arrow"></div>MINECRAFT</div>
+        <div class="menu-item" data-item="resume"><div class="arrow"></div>RESUME</div>
+        <div class="menu-item" data-item="robotic_arm"><div class="arrow"></div>WAIFU BOT</div>
+      </div>
+    </div>
+
+    <div class="menu-footer">↑↓ Navigate | ENTER Select</div>
+  </div>
+
+  <div style="position:relative">
+    <div class="room-arrow" id="roomArrow"></div>
+    <img src="isometric.png" usemap="#image-map" alt="My room" id="roomImg">
+  </div>
+</div>
+
+<!-- Image map stays the same -->
+<map name="image-map">
+  <area alt="computer" shape="poly" coords="162,442,162,539,294,615,296,519,221,476" href="#" onclick="speak('My beast PC<br>Ryzen 5 5600G<br>16GB RAM<br>RTX 3050 8GB<br>512GB NVMe SSD<br>MSI Bronze PSU');return false;">
+  <area alt="pokeball" shape="circle" coords="514,305,27" href="#" onclick="speak('Master Ball<br>Only one in existence...<br>I sleep with it');return false;">
+  <area alt="angry_birds" shape="poly" coords="330,203,373,180,377,314,333,342,332,274" href="#" onclick="speak('Angry Birds Classic<br>Still addicted in 2025<br>3 stars on every level');return false;">
+  <area alt="valorant" shape="poly" coords="230,403,233,334,314,290,318,360" href="#" onclick="speak('VALORANT<br>Rank: Immortal 2<br>Main: Jett + Sheriff only');return false;">
+  <area alt="smiley" shape="poly" coords="237,258,237,317,310,275,311,211,268,237" href="#" onclick="speak('Pure serotonin :D<br>My emotional support smiley');return false;">
+  <area alt="peashooter" shape="circle" coords="509,789,23" href="#" onclick="speak('Peashooter<br>Plants vs Zombies 1<br>Still my favorite plant');return false;">
+  <area alt="bank" shape="circle" coords="823,388,17" href="#" onclick="speak('Emergency Ramen Fund<br>Current balance: 2,300 PHP');return false;">
+  <area alt="minecraft" shape="circle" coords="793,366,14" href="#" onclick="speak('Minecraft Java<br>World name: GasparLand<br>Since 2014');return false;">
+  <area alt="resume" shape="poly" coords="796,324,749,302,757,262,821,277,812,306" href="#" onclick="speak('My Resume<br>Professional Pixel Artist<br>&amp; Full-stack Developer<br>(self-proclaimed)');return false;">
+  <area alt="robotic_arm" shape="poly" coords="748,409,732,402,702,307,777,350" href="#" onclick="speak('Future Waifu Bot Project<br>Phase 1: Mechanical arm<br>Phase 2: World domination');return false;">
+</map>
+
+<div class="bubble" id="bubble">
+  <div class="bubble-corner tl"></div>
+  <div class="bubble-corner tr"></div>
+  <div class="bubble-corner bl"></div>
+  <div class="bubble-corner br"></div>
+  <div id="bubbleText"></div>
+</div>
+
+<script>
+const itemCoords = {
+  computer: {x: 228, y: 547},
+  pokeball: {x: 514, y: 305},
+  angry_birds: {x: 355, y: 247},
+  valorant: {x: 271, y: 345},
+  smiley: {x: 274, y: 265},
+  peashooter: {x: 509, y: 789},
+  bank: {x: 823, y: 388},
+  minecraft: {x: 793, y: 366},
+  resume: {x: 794, y: 293},
+  robotic_arm: {x: 740, y: 370}
+};
+
+const items = document.querySelectorAll('.menu-item');
+const menuList = document.getElementById('menuList');
+let currentIndex = 0;
+
+function selectIndex(index) {
+  items.forEach((el, i) => el.classList.toggle('selected', i === index));
+  currentIndex = index;
+
+  const selectedItem = items[index];
+  const itemKey = selectedItem.dataset.item;
+  showArrow(itemKey);
+
+  const itemTop = selectedItem.offsetTop;
+  const itemHeight = selectedItem.offsetHeight;
+  const containerHeight = menuList.clientHeight;
+  const scrollTop = menuList.scrollTop;
+
+  if (itemTop < scrollTop) {
+    menuList.scrollTop = itemTop - 20;
+  } else if (itemTop + itemHeight > scrollTop + containerHeight) {
+    menuList.scrollTop = itemTop + itemHeight - containerHeight + 20;
+  }
+}
+
+function showArrow(item) {
+  const arrow = document.getElementById('roomArrow');
+  const img = document.getElementById('roomImg');
+  const coords = itemCoords[item];
+  if (!coords) return;
+
+  const imgRect = img.getBoundingClientRect();
+  const scaleX = imgRect.width / (img.naturalWidth || 960);
+  const scaleY = imgRect.height / (img.naturalHeight || 840);
+
+  arrow.style.left = `${coords.x * scaleX - 40}px`;
+  arrow.style.top = `${coords.y * scaleY - 10}px`;
+  arrow.classList.add('show');
+}
+
+function triggerCurrentItem() {
+  const itemKey = items[currentIndex].dataset.item;
+  const area = document.querySelector(`area[alt="${itemKey}"]`);
+  if (area && area.onclick) area.onclick();
+}
+
+// Keyboard navigation only (buttons removed)
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    selectIndex((currentIndex - 1 + items.length) % items.length);
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    selectIndex((currentIndex + 1) % items.length);
+  }
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    triggerCurrentItem();
+  }
+});
+
+// Click support
+items.forEach((el, i) => {
+  el.addEventListener('click', () => {
+    selectIndex(i);
+    triggerCurrentItem();
+  });
+});
+
+function speak(text) {
+  const b = document.getElementById('bubble');
+  const bText = document.getElementById('bubbleText');
+  bText.innerHTML = text;
+  b.classList.remove('show');
+  setTimeout(() => b.classList.add('show'), 50);
+  setTimeout(() => b.classList.remove('show'), 5000);
+}
+
+// Init
+selectIndex(0);
+window.addEventListener('resize', () => {
+  showArrow(items[currentIndex].dataset.item);
+});
+</script>
+
+</body>
+</html>
