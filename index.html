@@ -210,17 +210,17 @@
   </div>
 </div>
 
-<!-- CLEAN & ACCURATE IMAGE MAP (only one!) -->
+<!-- OLD IMAGE MAP FROM TXT FILE (applied with fixes for circles and added data-item) -->
 <map name="image-map">
-  <area target="" alt="Programs" title="Programs" href="#" data-item="Programs" coords="164,443,295,519,296,613,163,538,162,518,161,479" shape="poly">
-  <area target="" alt="Mini_game" title="Mini_game" href="#" data-item="Mini_game" coords="375,314,333,340,332,204,373,181" shape="poly">
-  <area target="" alt="Valorant" title="Valorant" href="#" data-item="Valorant" coords="232,336,313,292,316,349,232,398" shape="poly">
-  <area target="" alt="Experience" title="Experience" href="#" data-item="Experience" coords="233,257,308,211,311,276,236,315,235,286" shape="poly">
-  <area target="" alt="Education" title="Education" href="#" data-item="Education" coords="768,256,752,293,707,294,690,256,728,233,751,246" shape="poly">
-  <area target="" alt="Resume" title="Resume" href="#" data-item="Resume" coords="778,272,830,287,804,332,761,314,768,303,766,278" shape="poly">
-  <area target="" alt="Gallery" title="Gallery" href="#" data-item="Gallery" coords="817,335,826,327,867,357,860,373" shape="poly">
-  <area target="" alt="Links" title="Links" href="#" data-item="Links" coords="514,305,32" shape="circle">
-  <area target="" alt="Plant" title="Plant" href="#" data-item="Plant" coords="511,784,30" shape="circle">
+  <area target="" alt="Programs" title="Programs" href="#" data-item="Programs" coords="80,223,80,270,147,309,148,260" shape="poly">
+  <area target="" alt="Mini_game" title="Mini_game" href="#" data-item="Mini_game" coords="164,101,186,90,187,155,167,169" shape="poly">
+  <area target="" alt="Valorant" title="Valorant" href="#" data-item="Valorant" coords="115,168,117,199,158,174,157,146,139,156" shape="poly">
+  <area target="" alt="Websites" title="Websites" href="#" coords="255,394,15" shape="circle">
+  <area target="" alt="Education" title="Education" href="#" data-item="Education" coords="366,115,345,129,361,150,384,130,376,123" shape="poly">
+  <area target="" alt="Links" title="Links" href="#" data-item="Links" coords="257,152,18" shape="circle">
+  <area target="" alt="Gallery" title="Gallery" href="#" data-item="Gallery" coords="415,166,411,170,433,188,434,174" shape="poly">
+  <area target="" alt="Resume" title="Resume" href="#" data-item="Resume" coords="383,138,415,142,399,164,380,156,383,146" shape="poly">
+  <area target="" alt="Experience" title="Experience" href="#" data-item="Experience" coords="118,129,119,158,157,136,153,107" shape="poly">
 </map>
 
 <div class="bubble" id="bubble">
@@ -229,11 +229,17 @@
 </div>
 
 <script>
-// Arrow pointer coordinates (must match the map above!)
+// Arrow pointer coordinates (updated to match the old TXT map areas)
 const itemCoords = {
-  Programs: {x:228,y:520}, Gallery: {x:845,y:350}, Mini_game: {x:354,y:260},
-  Education: {x:728,y:270}, Resume: {x:795,y:300}, Links: {x:514,y:305},
-  Valorant: {x:274,y:345}, Experience: {x:271,y:265}, Plant: {x:511,y:784}
+  Programs: {x:113,y:270}, // Center of Programs poly
+  Gallery: {x:424,y:175}, // Center of Gallery poly
+  Mini_game: {x:176,y:128}, // Center of Mini_game poly
+  Education: {x:366,y:130}, // Center of Education poly
+  Resume: {x:399,y:150}, // Center of Resume poly
+  Links: {x:257,y:152}, // Center of Links circle
+  Valorant: {x:138,y:175}, // Center of Valorant poly
+  Experience: {x:138,y:135}, // Center of Experience poly
+  Plant: {x:257,y:152} // Placeholder (using Links center; add real if needed)
 };
 
 const items = document.querySelectorAll('.menu-item');
@@ -355,14 +361,12 @@ function initFlappy() {
   function draw() {
     ctx.fillStyle = '#5C94FC'; ctx.fillRect(0,0,380,500);
     
-    // Bird
     ctx.fillStyle = '#FFD700';
     ctx.beginPath();
     ctx.arc(80, birdY + 18, 18, 0, Math.PI * 2); 
     ctx.fill();
     ctx.strokeStyle = '#000'; ctx.lineWidth = 3; ctx.stroke();
 
-    // Pipes
     pipes = pipes.filter(p => p.x > -60);
     pipes.forEach(p => {
       ctx.fillStyle = '#2ECC40';
@@ -405,7 +409,6 @@ function initFlappy() {
 
 function stopFlappy() { flappyActive = false; }
 
-// Click handling for both menu and image map
 document.querySelectorAll('area, .menu-item').forEach(el => {
   el.addEventListener('click', e => {
     e.preventDefault();
