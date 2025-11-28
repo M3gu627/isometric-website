@@ -348,8 +348,8 @@ img {
 /* Bubble Close Button */
 .close-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 20px;
+    right: 20px;
     width: 40px;
     height: 40px;
     background: #ff5c5c;
@@ -637,3 +637,4 @@ img {
         display: none !important;
     }
 }
+
