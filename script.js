@@ -80,8 +80,18 @@ for (let i = 0; i < 30; i++) {
     particlesContainer.appendChild(p);
 }
 
-// Item Coordinates for the Room Pointer
-const itemCoords = { Programs: { x: 114, y: 270 }, Valorant: { x: 137, y: 180 }, Mini_game: { x: 176, y: 125 }, Experience: { x: 137, y: 140 }, Education: { x: 365, y: 132 }, Resume: { x: 397, y: 147 }, Websites: { x: 257, y: 393 }, Links: { x: 257, y: 153 }, Gallery: { x: 418, y: 175 } };
+// Item Coordinates for the Room Pointer (fixed to approximate centers of mapped areas for more accurate pointing)
+const itemCoords = { 
+    Programs: { x: 116, y: 264 }, 
+    Valorant: { x: 136, y: 171 }, 
+    Mini_game: { x: 177, y: 131 }, 
+    Experience: { x: 137, y: 133 }, 
+    Education: { x: 365, y: 132 }, 
+    Resume: { x: 397, y: 147 }, 
+    Websites: { x: 257, y: 393 }, 
+    Links: { x: 257, y: 153 }, 
+    Gallery: { x: 422, y: 177 } 
+};
 
 // Bubble Content Messages (FIX: Adjusted Links & Websites content to make bubbles smaller)
 const messages = {
@@ -137,10 +147,7 @@ const messages = {
           <ul style="margin:10px 0;padding-left:20px;">
             <li>Designed print-ready T-shirts using Infinite Design and Kritika</li>
             <li>Created and iterated logos for clients</li>
-          </ul>
-        </div></div>`,
-
-    Valorant: `<div style="font-size:24px;padding:40px;line-height:1.8;">Rank: <strong>Immortal</strong> (in 2022)<br>Current rank: <strong>Iron</strong> (after 2-week break)</div>`,
+          </ul...(truncated 89 characters)...height:1.8;">Rank: <strong>Immortal</strong> (in 2022)<br>Current rank: <strong>Iron</strong> (after 2-week break)</div>`,
 
     Gallery: `<div style="font-size:24px;padding:40px;">\${translations.en.gallerySoon}</div>`,
 
