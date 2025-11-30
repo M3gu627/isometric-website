@@ -82,16 +82,16 @@ for (let i = 0; i < 30; i++) {
 
 // Item Coordinates for the Room Pointer
 const itemCoords = {
-    Programs:   { x: 118, y: 263 },
-    Valorant:   { x: 138, y: 162 },
-    Mini_game:  { x: 174, y: 115 },
-    Experience: { x: 135, y: 134 },
-    Education:  { x: 365, y: 122 },
-    Resume:     { x: 395, y: 142 },
-    Links:      { x: 257, y: 152 },
-    Websites:   { x: 257, y: 393 },
-    Gallery:    { x: 420, y: 167 }
-};
+  Programs: { x: 133, y: 277 },
+  Valorant: { x: 160, y: 184 },
+  Mini_game: { x: 206, y: 128 },
+  Experience: { x: 160, y: 144 },
+  Education: { x: 428, y: 135 },
+  Resume: { x: 465, y: 151 },
+  Websites: { x: 301, y: 403 },
+  Links: { x: 301, y: 157 },
+  Gallery: { x: 490, y: 179 }
+}
 
 // Bubble Content Messages (FIX: Adjusted Links & Websites content to make bubbles smaller)
 const messages = {
@@ -319,89 +319,3 @@ document.addEventListener('keydown', e => {
         }
     }
 });
-
-// Initialize on image load (ensures proper scaling for the arrow)
-document.getElementById('roomImg').addEventListener('load', () => {
-    selectIndex(0);
-    showArrow('Programs');
-});
-
-// Handle resize to adjust the room pointer arrow position
-window.addEventListener('resize', () => showArrow(items[currentIndex].dataset.item));
-
-// Initial setup to display the arrow if the image is already loaded (browser cache)
-if (document.getElementById('roomImg').complete) {
-    selectIndex(0);
-    showArrow('Programs');
-}
-
-// ───── MOBILE NAVIGATION (carousel) ─────
-const mobileNav   = document.getElementById('mobileNav');
-const prevBtn     = document.getElementById('prevBtn');
-const nextBtn     = document.getElementById('nextBtn');
-const navCurrent  = document.getElementById('navCurrent');
-
-if (mobileNav) {
-    const menuItems = Array.from(document.querySelectorAll('.menu-item'));
-    const itemKeys  = menuItems.map(el => el.dataset.item);
-
-    // Start with the same item that desktop starts with
-    let mobileIndex = 0;
-
-    function updateMobileNav() {
-        const key = itemKeys[mobileIndex];
-        navCurrent.textContent = translations[currentLang][key] || key;
-
-        // Highlight the corresponding desktop menu item (for arrow pointer)
-        selectIndex(mobileIndex);
-
-        // If a bubble is already open for another item → reopen the new one
-        const bubble = document.getElementById('bubble');
-        if (bubble.classList.contains('show')) {
-            speak(messages[key]);
-            if (key === 'Mini_game') setTimeout(initFlappy, 300);
-        }
-    }
-
-    prevBtn.addEventListener('click', () => {
-        mobileIndex = (mobileIndex - 1 + itemKeys.length) % itemKeys.length;
-        updateMobileNav();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        mobileIndex = (mobileIndex + 1) % itemKeys.length;
-        updateMobileNav();
-    });
-
-    // Optional: swipe support
-    let touchstartX = 0;
-    mobileNav.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-    mobileNav.addEventListener('touchend', e => {
-        const touchendX = e.changedTouches[0].screenX;
-        if (touchstartX - touchendX > 50) nextBtn.click();      // swipe left → next
-        if (touchendX - touchstartX > 50) prevBtn.click();      // swipe right → previous
-    });
-
-    // Also open the bubble when tapping the current item text
-    navCurrent.addEventListener('click', () => {
-        const key = itemKeys[mobileIndex];
-        if (messages[key]) {
-            speak(messages[key]);
-            if (key === 'Mini_game') setTimeout(initFlappy, 300);
-        }
-    });
-
-    // Initialize mobile nav text on language change
-    const originalUpdateLanguage = updateLanguage;
-    updateLanguage = function(lang) {
-        originalUpdateLanguage(lang);
-        if (window.innerWidth <= 900) updateMobileNav();
-    };
-
-    // Initial call (in case we load on mobile)
-   // Initialize mobile nav only if on mobile
-if (window.innerWidth <= 900) {
-    updateMobileNav();
-}
-}
-
