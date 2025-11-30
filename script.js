@@ -319,3 +319,16 @@ document.addEventListener('keydown', e => {
         }
     }
 });
+
+// Auto-select the first menu item (or any you want) when page loads
+window.addEventListener('load', () => {
+    const defaultItem = 'Programs'; // Change this to whatever you want default (e.g., 'Resume', 'Mini_game', etc.)
+    const defaultIndex = [...items].findIndex(item => item.dataset.item === defaultItem);
+    
+    if (defaultIndex !== -1) {
+        selectIndex(defaultIndex);
+        // Optional: Also open the bubble automatically on load?
+        // speak(messages[defaultItem]);   // Uncomment if you want bubble to open too
+    }
+});
+
