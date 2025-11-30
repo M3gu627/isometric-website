@@ -1,0 +1,522 @@
+/* General Setup */
+body {
+    margin: 0;
+    background: #0f0f1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated Background */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f0f1a 70%);
+}
+
+.grid {
+    background-image: linear-gradient(rgba(100, 200, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 200, 255, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: drift 140s linear infinite;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0)
+    }
+
+    100% {
+        transform: translate(50px, 50px)
+    }
+}
+
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #00ffff;
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0 0 10px #00ffff;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0
+    }
+
+    10% {
+        opacity: 0.6
+    }
+
+    90% {
+        opacity: 0.6
+    }
+
+    100% {
+        transform: translate(300px, -300px) rotate(360deg);
+        opacity: 0
+    }
+}
+
+/* Top Right Controls */
+.controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 16px;
+    z-index: 9999;
+}
+
+.control-btn {
+    width: 56px;
+    height: 56px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 4px solid #000;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), inset -4px -4px 0 #0004, inset 4px 4px 0 #fff3;
+    backdrop-filter: blur(8px);
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+/* Sound Icon SVG Paths */
+.sound-icon {
+    width: 32px;
+    height: 32px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="cyan"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>') center/contain no-repeat;
+}
+
+.sound-icon.muted {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff3333"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>') center/contain no-repeat;
+}
+
+.lang-select {
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 4px solid #000;
+    border-radius: 12px;
+    color: cyan;
+    font-weight: bold;
+    font-size: 16px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+/* Main Container & Room Image */
+.container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    position: relative;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+img {
+    image-rendering: pixelated;
+    width: 600px;
+    height: 525px;
+    cursor: pointer;
+}
+
+/* Menu Styles (GameBoy style) */
+.menu-wrapper {
+    background: #f8f8f8;
+    border: 8px solid #000;
+    border-radius: 8px;
+    box-shadow: inset -4px -4px 0 #989898, inset 4px 4px 0 #fff, 8px 8px 0 rgba(0, 0, 0, 0.3);
+    width: 380px;
+    height: 525px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-header {
+    background: linear-gradient(180deg, #4870d8, #3850b8);
+    border-bottom: 4px solid #000;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.pokeball-icon {
+    width: 32px;
+    height: 32px;
+    background: radial-gradient(circle at center, #fff 0%, #fff 30%, transparent 30%),
+        linear-gradient(180deg, #f00 0%, #f00 50%, #fff 50%, #fff 52%, #000 52%, #000 54%, #fff 54%, #fff 100%);
+    border: 3px solid #000;
+    border-radius: 50%;
+    box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.menu-content {
+    background: #fff;
+    padding: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-list {
+    flex: 1;
+    overflow-y: auto;
+    background: #f0f0f0;
+    border: 4px solid #000;
+    padding: 4px;
+}
+
+.menu-item {
+    padding: 10px 12px 10px 40px;
+    cursor: pointer;
+    margin: 2px 0;
+    position: relative;
+    font-weight: bold;
+    background: #fff;
+    border: 3px solid transparent;
+}
+
+.menu-item:hover {
+    background: #fffacd;
+}
+
+.menu-item.selected {
+    background: #ffd700;
+    border: 3px solid #000;
+    box-shadow: inset -2px -2px 0 #d4a000;
+}
+
+.arrow {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 12px solid #f00;
+    opacity: 0;
+}
+
+.menu-item.selected .arrow {
+    opacity: 1;
+    animation: blink .8s infinite;
+}
+
+@keyframes blink {
+    0%,
+    49% {
+        opacity: 1
+    }
+
+    50%,
+    100% {
+        opacity: 0
+    }
+}
+
+.menu-footer {
+    background: #e0e0e0;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    border-top: 4px solid #000;
+    color: #666;
+}
+
+/* Room Arrow Indicator */
+.room-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 20px solid #ff0;
+    filter: drop-shadow(0 0 4px #ff0);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 10;
+}
+
+.room-arrow.show {
+    opacity: 1;
+    animation: bounce .6s infinite;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateX(0)
+    }
+
+    50% {
+        transform: translateX(-8px)
+    }
+}
+
+/* Bubble (Popup) Styles */
+.bubble {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #f8f8f8;
+    padding: 30px 40px 40px;
+    border: 8px solid #000;
+    border-radius: 16px;
+    font: bold 19px 'Courier New', monospace;
+    text-align: center;
+    max-width: 900px;
+    box-shadow: inset -4px -4px 0 #989898, inset 4px 4px 0 #fff, 12px 12px 0 rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.bubble.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation: popIn .35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: auto;
+}
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.7);
+        opacity: 0
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1
+    }
+}
+
+.bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 8px;
+    right: 8px;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, #000 0px, #000 4px, transparent 4px, transparent 8px);
+}
+
+/* Bubble Close Button */
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    background: #ff5c5c;
+    border: 6px solid #000;
+    border-radius: 8px;
+    /* FIX: Reduced font size for better 'X' padding/centering */
+    font-size: 24px; 
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 0 #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1200;
+    box-shadow: inset -4px -4px 0 #c00000, inset 4px 4px 0 #ff8c8c;
+}
+
+.close-btn:hover {
+    background: #ff3333;
+    transform: scale(1.1);
+}
+
+.close-btn:active {
+    transform: scale(0.95);
+}
+
+/* Mini Game (Flappy Bird) Styles */
+#flappyContainer {
+    width: 380px;
+    height: 500px;
+    margin: 20px auto;
+    background: #5C94FC;
+    border: 8px solid #000;
+    position: relative;
+    overflow: hidden;
+}
+
+#flappyCanvas {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+#flappyScore {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 32px;
+    text-shadow: 2px 2px 0 #000;
+    z-index: 10;
+}
+
+#flappyStart,
+#flappyRestart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px 32px;
+    background: #4870d8;
+    border: 6px solid #000;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: inset -4px -4px 0 #2850a8, inset 4px 4px 0 #6890f8;
+}
+
+#flappyRestart {
+    display: none;
+}
+
+/* Custom styles for Links and Websites bubbles (Fixing size) */
+.social-link {
+    display: inline-block;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.social-link img {
+    /* FIX: Set size to 64x64 and removed border/border-radius for sprites */
+    width: 100px;
+    height: 100px;
+    image-rendering: pixelated;
+    border: none;
+    border-radius: 0;
+    transition: transform 0.2s;
+    /* FIX: Remove default vertical gap under inline images */
+    vertical-align: middle; 
+}
+
+.social-link:hover img {
+    transform: scale(1.1);
+}
+
+.social-link.disabled img {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.project-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    background: #fff;
+    border: 4px solid #000;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    max-width: 350px;
+    transition: background 0.2s;
+    box-shadow: inset -2px -2px 0 #ccc, inset 2px 2px 0 #fff;
+}
+
+.project-btn:hover {
+    background: #e0f0ff;
+}
+
+.project-btn img {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 0;
+    flex-shrink: 0;
+}
+
+/* Responsive adjustment for small bubbles (Websites/Links) */
+@media (max-width: 999px) {
+    .bubble {
+        max-width: 90vw; /* General responsive fallback */
+    }
+}
+
+/* Aesthetic Download CV Button Style */
+.download-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background: #4870d8; /* Blue, like the GameBoy header */
+    border: 6px solid #000;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #000;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* 3D/shadow effect */
+    box-shadow: inset -4px -4px 0 #2850a8, inset 4px 4px 0 #6890f8;
+}
+
+.download-btn:hover {
+    background: #5880e8;
+    transform: translateY(-2px);
+    box-shadow: inset -4px -4px 0 #3860b8, inset 4px 4px 0 #78a0f8, 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.download-btn:active {
+    transform: translateY(0);
+    box-shadow: inset -2px -2px 0 #2850a8, inset 2px 2px 0 #6890f8;
+}
+
