@@ -81,7 +81,17 @@ for (let i = 0; i < 30; i++) {
 }
 
 // Item Coordinates for the Room Pointer
-const itemCoords = { Programs: { x: 114, y: 270 }, Valorant: { x: 137, y: 180 }, Mini_game: { x: 176, y: 125 }, Experience: { x: 137, y: 140 }, Education: { x: 365, y: 132 }, Resume: { x: 397, y: 147 }, Websites: { x: 257, y: 393 }, Links: { x: 257, y: 153 }, Gallery: { x: 418, y: 175 } };
+const itemCoords = {
+    Programs:   { x: 118, y: 263 },
+    Valorant:   { x: 138, y: 162 },
+    Mini_game:  { x: 174, y: 115 },
+    Experience: { x: 135, y: 134 },
+    Education:  { x: 365, y: 122 },
+    Resume:     { x: 395, y: 142 },
+    Links:      { x: 257, y: 152 },
+    Websites:   { x: 257, y: 393 },
+    Gallery:    { x: 420, y: 167 }
+};
 
 // Bubble Content Messages (FIX: Adjusted Links & Websites content to make bubbles smaller)
 const messages = {
@@ -394,3 +404,4 @@ if (window.innerWidth <= 900) {
     updateMobileNav();
 }
 }
+
