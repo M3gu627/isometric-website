@@ -35,618 +35,303 @@ body {
 }
 
 @keyframes drift {
-    0% {
-        transform: translate(0, 0)
+    from {
+        background-position: 0 0;
     }
 
-    100% {
-        transform: translate(50px, 50px)
+    to {
+        background-position: 1400px 0;
     }
 }
 
 .particles {
     position: absolute;
-    width: 100%;
-    height: 100%;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #00ffff;
-    border-radius: 50%;
-    opacity: 0.6;
-    box-shadow: 0 0 10px #00ffff;
-    animation: float 20s infinite linear;
-}
-
-@keyframes float {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-        opacity: 0
-    }
-
-    10% {
-        opacity: 0.6
-    }
-
-    90% {
-        opacity: 0.6
-    }
-
-    100% {
-        transform: translate(300px, -300px) rotate(360deg);
-        opacity: 0
-    }
-}
-
-/* Top Right Controls */
-.controls {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 16px;
-    z-index: 9999;
-}
-
-.control-btn {
-    width: 56px;
-    height: 56px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 4px solid #000;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all .3s;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), inset -4px -4px 0 #0004, inset 4px 4px 0 #fff3;
-    backdrop-filter: blur(8px);
-}
-
-.control-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
-}
-
-.control-btn:active {
-    transform: scale(0.95);
-}
-
-/* Sound Icon SVG Paths */
-.sound-icon {
-    width: 32px;
-    height: 32px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="cyan"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>') center/contain no-repeat;
-}
-
-.sound-icon.muted {
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff3333"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>') center/contain no-repeat;
-}
-
-.lang-select {
-    padding: 8px 16px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 4px solid #000;
-    border-radius: 12px;
-    color: cyan;
-    font-weight: bold;
-    font-size: 16px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-}
-
-/* Main Container & Room Image - REVISED */
 .container {
     display: flex;
-    gap: 40px;
-    align-items: flex-start;
+    gap: 30px;
     position: relative;
-    justify-content: center;
-    margin-top: 60px;
-    /* ADDED: Max width to keep the layout centered and predictable on wide screens */
-    max-width: 1050px;
+    max-width: 1200px;
+    width: 100%;
+    align-items: flex-start;
+    padding-top: 50px; /* Space for controls */
 }
 
-img {
-    image-rendering: pixelated;
-    width: 600px;
-    height: 525px;
-    cursor: pointer;
-    /* ADDED: Ensure the image is a block element and centered in its own container */
+/* --------------------------------------
+   PIXEL ROOM & IMAGE MAP STYLES
+-------------------------------------- */
+.room-container {
+    position: relative;
+    flex-shrink: 0;
+    width: 512px; /* Original image width */
+    height: 512px; /* Original image height */
+    max-width: 100%; /* Ensure it scales down */
+}
+
+.pixel-room {
     display: block;
-}
-
-#roomImg {
+    width: 100%;
+    height: auto;
     image-rendering: pixelated;
-    width: 600px;
-    height: 525px;
-    cursor: pointer;
-    /* Ensure the image is a block element and centered in its own container */
-    display: block;
-    /* FIX: Force mobile browsers to recognize the map areas instead of the image */
-    pointer-events: none; 
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
+    transition: transform 0.3s ease;
 }
 
-/* Menu Styles (GameBoy style) */
+/* --------------------------------------
+   DESKTOP MENU STYLES (GameBoy Style)
+-------------------------------------- */
 .menu-wrapper {
-    background: #f8f8f8;
-    border: 8px solid #000;
-    border-radius: 8px;
-    box-shadow: inset -4px -4px 0 #989898, inset 4px 4px 0 #fff, 8px 8px 0 rgba(0, 0, 0, 0.3);
-    width: 380px;
-    height: 525px;
-    display: flex;
-    flex-direction: column;
+    flex-grow: 1;
+    max-width: 300px;
+    background: #000;
+    color: #00ff88;
+    border: 3px solid #00ff88;
+    box-shadow: 0 0 15px #00ff8860, inset 0 0 10px #00ff8840;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
 .menu-header {
-    background: linear-gradient(180deg, #4870d8, #3850b8);
-    border-bottom: 4px solid #000;
-    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    color: #fff;
-    font-weight: bold;
-    font-size: 20px;
-    text-shadow: 2px 2px 0 #000;
+    gap: 10px;
+    border-bottom: 1px dashed #00ff8840;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    letter-spacing: 2px;
 }
 
 .pokeball-icon {
-    width: 32px;
-    height: 32px;
-    background: radial-gradient(circle at center, #fff 0%, #fff 30%, transparent 30%),
-        linear-gradient(180deg, #f00 0%, #f00 50%, #fff 50%, #fff 52%, #000 52%, #000 54%, #fff 54%, #fff 100%);
-    border: 3px solid #000;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 50% 50%, #ffffff 0%, #ffffff 20%, #ff0000 20%, #ff0000 40%, #000000 40%, #000000 60%, #ffffff 60%, #ffffff 80%, #000000 80%);
     border-radius: 50%;
-    box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3);
-}
-
-.menu-content {
-    background: #fff;
-    padding: 8px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 0 5px #00ff8880;
 }
 
 .menu-list {
-    flex: 1;
-    overflow-y: auto;
-    background: #f0f0f0;
-    border: 4px solid #000;
-    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .menu-item {
-    padding: 10px 12px 10px 40px;
+    padding: 5px 8px;
     cursor: pointer;
-    margin: 2px 0;
-    position: relative;
-    font-weight: bold;
-    background: #fff;
-    border: 3px solid transparent;
-}
-
-.menu-item:hover {
-    background: #fffacd;
+    transition: background-color 0.1s, box-shadow 0.1s;
+    font-size: 12px;
+    letter-spacing: 1px;
+    list-style: none;
 }
 
 .menu-item.selected {
-    background: #ffd700;
-    border: 3px solid #000;
-    box-shadow: inset -2px -2px 0 #d4a000;
+    background-color: #00ff88;
+    color: #000;
+    box-shadow: 0 0 8px #00ff88;
+    font-weight: bold;
 }
 
-.arrow {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-left: 12px solid #f00;
-    opacity: 0;
-}
-
-.menu-item.selected .arrow {
-    opacity: 1;
-    animation: blink .8s infinite;
-}
-
-@keyframes blink {
-    0%,
-    49% {
-        opacity: 1
-    }
-
-    50%,
-    100% {
-        opacity: 0
-    }
-}
-
-.menu-footer {
-    background: #e0e0e0;
-    padding: 10px;
-    text-align: center;
-    font-size: 12px;
-    border-top: 4px solid #000;
-    color: #666;
-}
-
-/* Room Arrow Indicator - REVISED FOR BETTER POSITIONING */
-.room-arrow {
-    position: absolute;
-    width: 0;
-    height: 0;
-    /* Triangle pointing left */
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-left: 20px solid #ff0;
-    filter: drop-shadow(0 0 4px #ff0);
-    pointer-events: none;
-    opacity: 0;
-    z-index: 10;
-    transition: opacity 0.3s;
-    /* Smooth transition */
-}
-
-.room-arrow.show {
-    opacity: 1;
-    animation: bounce .6s infinite;
-}
-
-@keyframes bounce {
-    0%,
-    100% {
-        transform: translateX(0)
-    }
-
-    50% {
-        transform: translateX(-8px)
-    }
-}
-
-/* Bubble (Popup) Styles */
-.bubble {
+/* --------------------------------------
+   BUBBLE/MODAL STYLES
+-------------------------------------- */
+#bubble {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    background: #f8f8f8;
-    padding: 30px 40px 40px;
-    border: 8px solid #000;
-    border-radius: 16px;
-    font: bold 19px 'Courier New', monospace;
-    text-align: center;
-    max-width: 900px;
-    box-shadow: inset -4px -4px 0 #989898, inset 4px 4px 0 #fff, 12px 12px 0 rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, -50%) scale(0.8);
+    background: #1a1a2e;
+    color: #fff;
+    border: 2px solid #00ff88;
+    padding: 20px;
+    box-shadow: 0 0 20px #00ff8880;
+    z-index: 100;
+    width: 600px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
     opacity: 0;
     pointer-events: none;
-    z-index: 1000;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
-.bubble.show {
+#bubble.show {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    animation: popIn .35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
 }
 
-@keyframes popIn {
-    0% {
-        transform: translate(-50%, -50%) scale(0.7);
-        opacity: 0
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1
-    }
+.bubble-content h2 {
+    color: #00ff88;
+    border-bottom: 1px dashed #00ff8840;
+    padding-bottom: 10px;
+    margin-top: 0;
+    font-size: 1.5em;
+    letter-spacing: 2px;
 }
 
-.bubble::before {
-    content: '';
+.bubble-content p,
+.bubble-content ul {
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+.bubble-content ul {
+    list-style: '→ ';
+    padding-left: 20px;
+}
+
+#closeBtn {
     position: absolute;
-    bottom: -4px;
-    left: 8px;
-    right: 8px;
-    height: 8px;
-    background: repeating-linear-gradient(90deg, #000 0px, #000 4px, transparent 4px, transparent 8px);
-}
-
-/* Bubble Close Button */
-.close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 40px;
-    height: 40px;
-    background: #ff5c5c;
-    border: 6px solid #000;
-    border-radius: 8px;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px 0 #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #ff0040;
+    font-size: 1.5em;
     cursor: pointer;
-    user-select: none;
-    z-index: 1200;
-    box-shadow: inset -4px -4px 0 #c00000, inset 4px 4px 0 #ff8c8c;
+    font-weight: bold;
+    transition: color 0.2s, transform 0.2s;
 }
 
-.close-btn:hover {
-    background: #ff3333;
+#closeBtn:hover {
+    color: #ff80a0;
     transform: scale(1.1);
 }
 
-.close-btn:active {
-    transform: scale(0.95);
-}
+/* --------------------------------------
+   MOBILE-SPECIFIC STYLES
+-------------------------------------- */
 
-/* Mini Game (Flappy Bird) Styles */
-#flappyContainer {
-    width: 380px;
-    height: 500px;
-    margin: 20px auto;
-    background: #5C94FC;
-    border: 8px solid #000;
-    position: relative;
-    overflow: hidden;
-}
-
-#flappyCanvas {
-    width: 100%;
-    height: 100%;
-    image-rendering: pixelated;
-}
-
-#flappyScore {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 32px;
-    text-shadow: 2px 2px 0 #000;
-    z-index: 10;
-}
-
-#flappyStart,
-#flappyRestart {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 16px 32px;
-    background: #4870d8;
-    border: 6px solid #000;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 20;
-    box-shadow: inset -4px -4px 0 #2850a8, inset 4px 4px 0 #6890f8;
-}
-
-#flappyRestart {
+/* Hide mobile controls by default on desktop */
+.mobile-controls-wrapper {
     display: none;
 }
 
-/* Custom styles for Links and Websites bubbles */
-.social-link {
-    display: inline-block;
-    margin: 0 15px;
-    text-decoration: none;
-}
-
-.social-link img {
-    width: 100px;
-    height: 100px;
-    image-rendering: pixelated;
-    border: none;
-    border-radius: 0;
-    transition: transform 0.2s;
-    vertical-align: middle;
-}
-
-.social-link:hover img {
-    transform: scale(1.1);
-}
-
-.social-link.disabled img {
-    opacity: 0.5;
-    cursor: default;
-}
-
-.project-btn {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 20px;
-    background: #fff;
-    border: 4px solid #000;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #000;
-    font-size: 18px;
-    font-weight: bold;
-    width: 100%;
-    max-width: 350px;
-    transition: background 0.2s;
-    box-shadow: inset -2px -2px 0 #ccc, inset 2px 2px 0 #fff;
-}
-
-.project-btn:hover {
-    background: #e0f0ff;
-}
-
-.project-btn img {
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 0;
-    flex-shrink: 0;
-}
-
-/* Aesthetic Download CV Button Style */
-.download-btn {
-    display: inline-block;
-    padding: 15px 30px;
-    background: #4870d8;
-    border: 6px solid #000;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 2px 2px 0 #000;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: inset -4px -4px 0 #2850a8, inset 4px 4px 0 #6890f8;
-}
-
-.download-btn:hover {
-    background: #5880e8;
-    transform: translateY(-2px);
-    box-shadow: inset -4px -4px 0 #3860b8, inset 4px 4px 0 #78a0f8, 0 4px 0 rgba(0, 0, 0, 0.2);
-}
-
-.download-btn:active {
-    transform: translateY(0);
-    box-shadow: inset -2px -2px 0 #2850a8, inset 2px 2px 0 #6890f8;
-}
-
-/* Mobile Hint Text */
-.mobile-hint {
-    display: none; /* Hide by default on desktop */
-    color: cyan;
-    font-size: 18px;
-    font-weight: bold;
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: 3px solid cyan;
-    border-radius: 8px;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
-    }
-    50% {
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    }
-    100% {
-        box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
-    }
-}
-
-/* ============================
-   MOBILE LAYOUT
-   ============================ */
-
 @media (max-width: 768px) {
 
-    /* Fullscreen mobile layout */
-    body {
-        padding: 0;
-        overflow-x: hidden;
-        /* Allow vertical scrolling if content is too tall */
-        overflow-y: auto;
-    }
-
+    /* Adjust container for mobile stacking */
     .container {
-        /* Allow container to take up less space to center content */
-        margin-top: 0;
-        align-items: center;
         flex-direction: column;
-        width: 100vw; /* Take up full width */
-        padding: 20px 0; /* Add vertical padding for breathing room */
+        align-items: center;
+        gap: 20px;
+        padding-top: 0;
+        /* Less padding on sides to maximize space */
+        padding: 10px;
     }
 
-    /* Hide left menu completely */
+    /* Ensure room scales down properly on mobile */
+    .room-container {
+        width: 95%; /* Take up most of the screen width */
+        height: auto;
+        /* The image map will scale proportionally here */
+    }
+
+    .pixel-room {
+        /* This is already set to width: 100% and height: auto in desktop styles, ensuring it scales correctly */
+    }
+
+    /* Hide the desktop GameBoy menu on mobile */
     .menu-wrapper {
-        display: none !important;
+        display: none;
     }
 
-    /* Hide language selector on mobile */
-    #langSelect {
-        display: none !important;
+    /* Show the new mobile controls */
+    .mobile-controls-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        width: 100%;
+        max-width: 512px; /* Match the max-width of the image for alignment */
+        margin-top: 10px;
     }
 
-    /* Reposition controls to not overlap with top of screen content */
+    .mobile-item-btn {
+        background-color: #00ff88;
+        color: #000;
+        border: 2px solid #000;
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-color 0.1s, box-shadow 0.1s;
+        box-shadow: 3px 3px 0 #000;
+        flex-grow: 1;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    .mobile-item-btn:active {
+        background-color: #00cc66;
+        box-shadow: 1px 1px 0 #000;
+        transform: translate(2px, 2px);
+    }
+
+    /* Make the bubble take up more width on mobile */
+    #bubble {
+        width: 95%;
+        max-width: 95%;
+        padding: 15px;
+    }
+
+    /* Adjust controls position */
     .controls {
         top: 10px;
         right: 10px;
-    }
-
-    /* Room becomes responsive and centered */
-    #roomImg {
-        width: auto !important;
-        height: auto !important;
-        /* Maximize width but keep it contained within the viewport */
-        max-width: 95vw;
-        max-height: none; /* Removed max-height to ensure it scales based on width */
-        object-fit: contain;
-        margin: 20px auto 10px; /* Adjust bottom margin */
-        display: block;
-    }
-
-    /* Show the hint text on mobile */
-    .mobile-hint {
-        display: block;
-    }
-
-    /* Keep arrow pinned to image container */
-    #roomArrow {
-        z-index: 20;
-    }
-
-    /* Bubble becomes mobile-friendly */
-    .bubble {
-        width: 95vw !important;
-        max-width: 95vw !important;
-        max-height: 90vh !important;
-        overflow-y: auto;
-        padding: 20px;
-        font-size: 16px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    .close-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 20px;
+        z-index: 50;
     }
 }
 
-/* ==============================
-   PIXEL RETRO TERMINAL STYLE
-============================== */
-
-.loader-box {
-    font-family: "Press Start 2P", monospace;
+/* Rest of the original CSS... (Loading Screen, Controls, Flappy Game, etc.) */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+    pointer-events: all;
 }
 
-/* CRT Flicker + Glow */
-#loadingScreen {
-    background: #010f02;
-    /* dark green/black */
-    animation: crt-flicker 0.12s infinite alternate;
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: #000;
+    border: 3px solid #00ff88;
+    box-shadow: 0 0 20px #00ff8880;
+    padding: 30px 40px;
+    position: relative;
+    /* CRT Scanlines effect */
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(to bottom, transparent 0, transparent 1px, #000000 2px, #000000 3px); /* Dark green/black */
+        animation: crt-flicker 0.12s infinite alternate;
+    }
 }
 
 @keyframes crt-flicker {
@@ -688,6 +373,7 @@ img {
 
     to {
         opacity: 1;
+        filter: blur(0);
     }
 }
 
@@ -695,40 +381,90 @@ img {
     margin-top: 10px;
     font-size: 12px;
     color: #00ff88;
-    text-shadow: 0 0 6px #00ff8890;
-    letter-spacing: 2px;
 }
 
-/* ENTER button pixel style */
-.enter-btn {
-    margin-top: 30px;
-    padding: 14px 34px;
-    font-size: 12px;
+.meter-bar {
+    width: 100%;
+    height: 10px;
+    background: #1a1a2e;
+    border: 1px solid #00ff88;
+    box-shadow: 0 0 5px #00ff8840 inset;
+    margin-top: 5px;
+}
+
+.meter-fill {
+    height: 100%;
+    background: #00ff88;
+    transition: width 0.3s ease-out;
+    box-shadow: 0 0 8px #00ff88;
+    width: 0%;
+}
+
+/* Controls (Language & Sound) */
+.controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.lang-select {
+    background: #1a1a2e;
     color: #00ff88;
-    border: 2px solid #00ff88;
-    background: #021a0a;
-    text-shadow: 0 0 6px #00ff8870;
-    font-family: "Press Start 2P", monospace;
+    border: 1px solid #00ff88;
+    padding: 5px 10px;
+    font-family: 'Courier New', monospace;
     cursor: pointer;
-    opacity: 0;
-    transform: translateY(15px);
-    transition: 0.4s ease;
+    box-shadow: 0 0 5px #00ff8840;
 }
 
-.enter-btn:hover {
-    background: #00ff8830;
-    box-shadow: 0 0 10px #00ff8860;
+.control-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #1a1a2e;
+    border: 2px solid #00ff88;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 5px #00ff8840;
+    transition: background-color 0.1s;
 }
 
-/* Pixel blinking cursor on ENTER */
-.enter-btn.show::after {
-    content: "_";
-    margin-left: 4px;
-    animation: blink 0.7s steps(1) infinite;
+.control-btn:hover {
+    background-color: #2c2c4a;
 }
 
-@keyframes blink {
-    50% {
-        opacity: 0
-    }
+.sound-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #00ff88;
+    box-shadow: 0 0 5px #00ff88;
+    transition: transform 0.2s;
+}
+
+.control-btn.muted .sound-icon {
+    background-color: #ff0040;
+    box-shadow: 0 0 5px #ff0040;
+    transform: scale(0.6);
+}
+
+/* Flappy Game */
+#flappyCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid #00ff88;
+    box-shadow: 0 0 20px #00ff8880;
+    display: none;
+    z-index: 101;
+}
+
+#flappyCanvas.active {
+    display: block;
 }
