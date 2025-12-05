@@ -1,4 +1,3 @@
-
 /* General Setup */
 body {
     margin: 0;
@@ -141,7 +140,7 @@ body {
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
 }
 
-/* Main Container & Room Image */
+/* Main Container & Room Image - REVISED */
 .container {
     display: flex;
     gap: 40px;
@@ -149,6 +148,8 @@ body {
     position: relative;
     justify-content: center;
     margin-top: 60px;
+    /* ADDED: Max width to keep the layout centered and predictable on wide screens */
+    max-width: 1050px;
 }
 
 img {
@@ -156,6 +157,17 @@ img {
     width: 600px;
     height: 525px;
     cursor: pointer;
+    /* ADDED: Ensure the image is a block element and centered in its own container */
+    display: block;
+}
+
+#roomImg {
+    image-rendering: pixelated;
+    width: 600px;
+    height: 525px;
+    cursor: pointer;
+    /* Ensure the image is a block element and centered in its own container */
+    display: block;
 }
 
 /* Menu Styles (GameBoy style) */
@@ -268,11 +280,12 @@ img {
     color: #666;
 }
 
-/* Room Arrow Indicator */
+/* Room Arrow Indicator - REVISED FOR BETTER POSITIONING */
 .room-arrow {
     position: absolute;
     width: 0;
     height: 0;
+    /* Triangle pointing left */
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
     border-left: 20px solid #ff0;
@@ -280,6 +293,8 @@ img {
     pointer-events: none;
     opacity: 0;
     z-index: 10;
+    transition: opacity 0.3s;
+    /* Smooth transition */
 }
 
 .room-arrow.show {
@@ -356,8 +371,7 @@ img {
     background: #ff5c5c;
     border: 6px solid #000;
     border-radius: 8px;
-    /* FIX: Reduced font size for better 'X' padding/centering */
-    font-size: 24px; 
+    font-size: 24px;
     font-weight: bold;
     color: white;
     text-shadow: 2px 2px 0 #000;
@@ -427,7 +441,7 @@ img {
     display: none;
 }
 
-/* Custom styles for Links and Websites bubbles (Fixing size) */
+/* Custom styles for Links and Websites bubbles */
 .social-link {
     display: inline-block;
     margin: 0 15px;
@@ -435,15 +449,13 @@ img {
 }
 
 .social-link img {
-    /* FIX: Set size to 64x64 and removed border/border-radius for sprites */
     width: 100px;
     height: 100px;
     image-rendering: pixelated;
     border: none;
     border-radius: 0;
     transition: transform 0.2s;
-    /* FIX: Remove default vertical gap under inline images */
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 .social-link:hover img {
@@ -485,18 +497,11 @@ img {
     flex-shrink: 0;
 }
 
-/* Responsive adjustment for small bubbles (Websites/Links) */
-@media (max-width: 999px) {
-    .bubble {
-        max-width: 90vw; /* General responsive fallback */
-    }
-}
-
 /* Aesthetic Download CV Button Style */
 .download-btn {
     display: inline-block;
     padding: 15px 30px;
-    background: #4870d8; /* Blue, like the GameBoy header */
+    background: #4870d8;
     border: 6px solid #000;
     border-radius: 10px;
     color: #fff;
@@ -506,7 +511,6 @@ img {
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s;
-    /* 3D/shadow effect */
     box-shadow: inset -4px -4px 0 #2850a8, inset 4px 4px 0 #6890f8;
 }
 
@@ -521,3 +525,209 @@ img {
     box-shadow: inset -2px -2px 0 #2850a8, inset 2px 2px 0 #6890f8;
 }
 
+/* Mobile Hint Text */
+.mobile-hint {
+    display: none; /* Hide by default on desktop */
+    color: cyan;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 3px solid cyan;
+    border-radius: 8px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
+    }
+}
+
+/* ============================
+   MOBILE LAYOUT
+   ============================ */
+/* IMPORTANT: We no longer need the .mobile-nav section since interaction is on the image map */
+
+@media (max-width: 768px) {
+
+    /* Fullscreen mobile layout */
+    body {
+        padding: 0;
+        overflow-x: hidden;
+        /* Allow vertical scrolling if content is too tall */
+        overflow-y: auto;
+    }
+
+    .container {
+        /* Allow container to take up less space to center content */
+        margin-top: 0;
+        align-items: center;
+        flex-direction: column;
+        width: 100vw; /* Take up full width */
+        padding: 20px 0; /* Add vertical padding for breathing room */
+    }
+
+    /* Hide left menu completely */
+    .menu-wrapper {
+        display: none !important;
+    }
+
+    /* Hide language selector on mobile */
+    #langSelect {
+        display: none !important;
+    }
+
+    /* Reposition controls to not overlap with top of screen content */
+    .controls {
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Room becomes responsive and centered */
+    #roomImg {
+        width: auto !important;
+        height: auto !important;
+        /* Maximize width but keep it contained within the viewport */
+        max-width: 95vw;
+        max-height: none; /* Removed max-height to ensure it scales based on width */
+        object-fit: contain;
+        margin: 20px auto 10px; /* Adjust bottom margin */
+        display: block;
+    }
+
+    /* Show the hint text on mobile */
+    .mobile-hint {
+        display: block;
+    }
+
+    /* Keep arrow pinned to image container */
+    #roomArrow {
+        z-index: 20;
+    }
+
+    /* Bubble becomes mobile-friendly */
+    .bubble {
+        width: 92vw !important;
+        max-height: 90vh !important;
+        overflow-y: auto;
+        padding: 20px;
+        font-size: 16px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .close-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+}
+
+/* ==============================
+   PIXEL RETRO TERMINAL STYLE
+============================== */
+
+.loader-box {
+    font-family: "Press Start 2P", monospace;
+}
+
+/* CRT Flicker + Glow */
+#loadingScreen {
+    background: #010f02;
+    /* dark green/black */
+    animation: crt-flicker 0.12s infinite alternate;
+}
+
+@keyframes crt-flicker {
+    from {
+        opacity: 0.97;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.loading-title {
+    font-size: 18px;
+    color: #00ff88;
+    text-shadow: 0 0 8px #00ff8850;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: typewriter 1s steps(20) forwards;
+}
+
+.loading-sub {
+    font-size: 10px;
+    margin-top: 10px;
+    color: #00ff8840;
+    text-shadow: 0 0 6px #00ff8860;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: typewriter 1s steps(20) forwards 0.5s;
+}
+
+/* Typing animation */
+@keyframes typewriter {
+    from {
+        opacity: 0;
+        filter: blur(3px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+.meter-percent {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #00ff88;
+    text-shadow: 0 0 6px #00ff8890;
+    letter-spacing: 2px;
+}
+
+/* ENTER button pixel style */
+.enter-btn {
+    margin-top: 30px;
+    padding: 14px 34px;
+    font-size: 12px;
+    color: #00ff88;
+    border: 2px solid #00ff88;
+    background: #021a0a;
+    text-shadow: 0 0 6px #00ff8870;
+    font-family: "Press Start 2P", monospace;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: 0.4s ease;
+}
+
+.enter-btn:hover {
+    background: #00ff8830;
+    box-shadow: 0 0 10px #00ff8860;
+}
+
+/* Pixel blinking cursor on ENTER */
+.enter-btn.show::after {
+    content: "_";
+    margin-left: 4px;
+    animation: blink 0.7s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
