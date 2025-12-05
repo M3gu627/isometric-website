@@ -111,12 +111,12 @@ const messages = {
 
     Programs: `<div style="margin-top:20px;text-align:center;"><strong style="font-size:32px; text-shadow: 2px 2px 0 #000;display:block;margin-bottom:30px;">\${translations.en.programming}</strong>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;max-width:720px;margin:0 auto;">
-          <div><img src="html.png" style="width:90px;height:90px;image-rendering:pixelated;"><br><strong>HTML</strong><br><span style="font-size:14px;color:#666;">Structure & markup</span></div>
-          <div><img src="css.png" style="width:90px;height:90px;image-rendering:pixelated;"><br><strong>CSS</strong><br><span style="font-size:14px;color:#666;">Styling & layouts</span></div>
-          <div><img src="js.png" style="width:90px;height:90px;image-rendering:pixelated;"><br><strong>JavaScript</strong><br><span style="font-size:14px;color:#666;">Interactivity & logic</span></div>
-          <div><img src="php.png" style="width:90px;height:90px;image-rendering:pixelated;"><br><strong>PHP</strong><br><span style="font-size:14px;color:#666;">Server-side scripting</span></div>
-          <div><img src="python.png" style="width:90px;height:90px;image-rendering:pixelated;"><br><strong>Python</strong><br><span style="font-size:14px;color:#666;">Scripting & automation</span></div>
-          <div><img src="java.png" style="width:90px;height:90px;image-rendering:pixelated;"><br><strong>Java</strong><br><span style="font-size:14px;color:#666;">OOP & applications</span></div>
+          <div style="text-align:center;"><img src="html.png" style="width:90px;height:90px;image-rendering:pixelated;display:block;margin:0 auto;"><br><strong>HTML</strong><br><span style="font-size:14px;color:#666;">Structure & markup</span></div>
+          <div style="text-align:center;"><img src="css.png" style="width:90px;height:90px;image-rendering:pixelated;display:block;margin:0 auto;"><br><strong>CSS</strong><br><span style="font-size:14px;color:#666;">Styling & layouts</span></div>
+          <div style="text-align:center;"><img src="js.png" style="width:90px;height:90px;image-rendering:pixelated;display:block;margin:0 auto;"><br><strong>JavaScript</strong><br><span style="font-size:14px;color:#666;">Interactivity & logic</span></div>
+          <div style="text-align:center;"><img src="php.png" style="width:90px;height:90px;image-rendering:pixelated;display:block;margin:0 auto;"><br><strong>PHP</strong><br><span style="font-size:14px;color:#666;">Server-side scripting</span></div>
+          <div style="text-align:center;"><img src="python.png" style="width:90px;height:90px;image-rendering:pixelated;display:block;margin:0 auto;"><br><strong>Python</strong><br><span style="font-size:14px;color:#666;">Scripting & automation</span></div>
+          <div style="text-align:center;"><img src="java.png" style="width:90px;height:90px;image-rendering:pixelated;display:block;margin:0 auto;"><br><strong>Java</strong><br><span style="font-size:14px;color:#666;">OOP & applications</span></div>
         </div></div>`,
 
     Education: `<div style="margin-top:20px;text-align:left;max-width:850px;margin:0 auto;"><strong style="font-size:32px; text-shadow: 2px 2px 0 #000;display:block;text-align:center;">\${translations.en.education}</strong><br><br>
@@ -175,9 +175,9 @@ const messages = {
             <img src="https://github.githubassets.com/favicons/favicon.png" alt="GitHub">
             <div><strong>Korean Blinds</strong><br><small>E-commerce for window blinds</small></div>
           </a>
-          <a href="https://m3gu627.github.io/Motorcylceparts/index.html" target="_blank" class="project-btn">
+          <a href="https://m3gu627.github.io/Cafe/" target="_blank" class="project-btn">
             <img src="https://m3gu627.github.io/Motorcylceparts/favicon.ico" alt="Motorcycle Parts" onerror="this.src='https://www.google.com/s2/favicons?domain=m3gu627.github.io&sz=64'">
-            <div><strong>Motorcycle Parts Catalog</strong><br><small>Spare parts showcase</small></div>
+            <div><strong>Big Brew</strong><br><small>A Multi-franchising Cafe</small></div>
           </a>
         </div>
         <div style="margin-top:30px; font-size:16px; color:#555;">Click any project to visit!</div>
