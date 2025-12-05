@@ -1,3 +1,46 @@
+// script.js
+// Loading Screen Logic
+document.addEventListener('DOMContentLoaded', () => {
+  const loadingScreen = document.getElementById('loadingScreen');
+  const progressFill = document.querySelector('.progress-fill');
+  const percentText = document.querySelector('.meter-percent');
+  // Removed: const enterBtn = document.getElementById('enterBtn');
+  const mainElements = document.querySelectorAll('.container, .controls, .bg-animation'); // Elements to reveal
+
+  // Initially hide main content
+  mainElements.forEach(el => el.classList.remove('visible'));
+
+  let progress = 0;
+  const loadingInterval = setInterval(() => {
+    progress += 10; // Increase by 10% each tick (adjust for speed)
+    if (progress > 100) progress = 100;
+
+    progressFill.style.width = `${progress}%`;
+    percentText.textContent = `${progress}%`;
+
+    if (progress === 100) {
+      clearInterval(loadingInterval);
+      
+      // --- AUTOMATIC TRANSITION LOGIC ---
+      // 1. Reveal main content after a short delay (e.g., 500ms)
+      setTimeout(() => {
+        loadingScreen.style.opacity = '0'; // Fade out loading screen
+        mainElements.forEach(el => el.classList.add('visible'));
+        tryPlay(); // Start music on interaction (bypasses autoplay policy)
+        
+        // 2. Hide the loading screen completely after the fade out transition is complete (e.g., 1000ms, matching style.css)
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 1000); 
+
+      }, 500); 
+      // ---------------------------------
+    }
+  }, 500); // 0.5 seconds per tick (total ~5 seconds)
+
+  // Removed enterBtn event listener
+
+});
 // Multi-language translations
 const translations = {
     en: {
@@ -331,4 +374,3 @@ window.addEventListener('load', () => {
         // speak(messages[defaultItem]);   // Uncomment if you want bubble to open too
     }
 });
-
