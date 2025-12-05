@@ -168,6 +168,8 @@ img {
     cursor: pointer;
     /* Ensure the image is a block element and centered in its own container */
     display: block;
+    /* FIX: Force mobile browsers to recognize the map areas instead of the image */
+    pointer-events: none; 
 }
 
 /* Menu Styles (GameBoy style) */
@@ -554,7 +556,6 @@ img {
 /* ============================
    MOBILE LAYOUT
    ============================ */
-/* IMPORTANT: We no longer need the .mobile-nav section since interaction is on the image map */
 
 @media (max-width: 768px) {
 
