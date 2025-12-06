@@ -654,3 +654,31 @@ img {
 .container.visible, .controls.visible, .bg-animation.visible {
   opacity: 1;
 }
+
+@media (max-width: 768px) {
+
+  /* Make bubble text readable on mobile */
+  #bubbleText {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    text-align: left !important;
+  }
+
+  #bubbleText img {
+    width: 80px !important;
+    height: auto !important;
+    margin-bottom: 15px !important;
+  }
+
+  .bubble {
+    padding: 15px !important;
+    width: 90vw !important;
+    max-height: 85vh !important;
+  }
+
+  /* Paragraph spacing */
+  #bubbleText p, #bubbleText div {
+    margin-bottom: 10px !important;
+  }
+
+}
